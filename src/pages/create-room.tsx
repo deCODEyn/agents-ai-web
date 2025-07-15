@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 type GetRoomsAPIResponse = Array<{
   id: string;
@@ -8,9 +8,9 @@ type GetRoomsAPIResponse = Array<{
 
 export function CreateRoom() {
   const { data, isLoading } = useQuery({
-    queryKey: ["get-rooms"],
+    queryKey: ['get-rooms'],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3333/rooms");
+      const response = await fetch('http://localhost:3333/rooms');
       const result: GetRoomsAPIResponse = await response.json();
 
       return result;
