@@ -1,10 +1,5 @@
-import type { ReactNode } from 'react';
+import type { FormItemFieldProps } from '../props/form-item-field-props';
 import { FormControl, FormItem, FormLabel, FormMessage } from '../ui/form';
-
-type FormItemFieldProps = {
-  label: string;
-  children: ReactNode;
-};
 
 export function FormItemField({ label, children }: FormItemFieldProps) {
   return (
