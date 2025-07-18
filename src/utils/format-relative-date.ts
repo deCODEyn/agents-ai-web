@@ -1,22 +1,40 @@
-const formatter = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+export function formatTimeToNowOld(dateString: string): string {
+  const formatter = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
 
-export function formatTimeToNow(dateString: string) {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diff = date.getTime() - now.getTime();
+  const diffInMs = new Date(dateString).getTime() - Date.now();
 
-  return formatter.format(
-    Math.round(diff / (1000 * 60 * 60 * 24) / 365),
-    'year'
-  );
-}
+  const minute = 60 * 1000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+  const week = 7 * day;
+  const month = 30 * day;
+  const year = 365 * day;
 
-const format = new Intl.DateTimeFormat('pt-BR', {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-});
+  let format: number;
+  let unit: Intl.RelativeTimeFormatUnit;
 
-export function formatDatePtBr(dataString: string) {
-  return format.format(Date.parse(dataString));
+  if (Math.abs(diffInMs) < minute) {
+    format = Math.round(diffInMs / 1000);
+    unit = 'second';
+  } else if (Math.abs(diffInMs) < hour) {
+    format = Math.round(diffInMs / minute);
+    unit = 'minute';
+  } else if (Math.abs(diffInMs) < day) {
+    format = Math.round(diffInMs / hour);
+    unit = 'hour';
+  } else if (Math.abs(diffInMs) < week) {
+    format = Math.round(diffInMs / day);
+    unit = 'day';
+  } else if (Math.abs(diffInMs) < month) {
+    format = Math.round(diffInMs / week);
+    unit = 'week';
+  } else if (Math.abs(diffInMs) < year) {
+    format = Math.round(diffInMs / month);
+    unit = 'month';
+  } else {
+    format = Math.round(diffInMs / year);
+    unit = 'year';
+  }
+
+  return formatter.format(format, unit);
 }
