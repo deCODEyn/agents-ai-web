@@ -1,10 +1,10 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatTimeToNow } from '@/utils/format-relative-date';
-import type { LinkRoomProps } from './http/types/link-room-props';
-import { Badge } from './ui/badge';
+import type { RoomLinkProps } from '../http/types/room-link-props';
+import { Badge } from '../ui/badge';
 
-export function RoomLink(data: LinkRoomProps) {
+export function RoomLink(data: RoomLinkProps) {
   const room = data.room;
 
   return (

@@ -1,4 +1,4 @@
-export type LinkRoomProps = {
+export type RoomLinkProps = {
   room: {
     id: string;
     name: string;

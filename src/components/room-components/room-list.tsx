@@ -1,12 +1,12 @@
-import { useRooms } from './http/use-rooms.ts';
-import { RoomLink } from './room-link.tsx';
+import { useRooms } from '../http/use-rooms.ts.ts';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from './ui/card';
+} from '../ui/card.tsx';
+import { RoomLink } from './room-link.tsx';
 
 export function RoomList() {
   const { data, isLoading } = useRooms();
