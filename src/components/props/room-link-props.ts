@@ -1,8 +1,10 @@
+interface RoomLinkInterface {
+  id: string;
+  name: string;
+  questionsCount: number;
+  createdAt: string;
+}
+
 export type RoomLinkProps = {
-  room: {
-    id: string;
-    name: string;
-    questionsCount: number;
-    createdAt: string;
-  };
+  room: RoomLinkInterface;
 };

@@ -1,5 +1,5 @@
-import type { FormItemFieldProps } from '../props/form-item-field-props';
-import { FormControl, FormItem, FormLabel, FormMessage } from '../ui/form';
+import type { FormItemFieldProps } from './props/form-item-field-props';
+import { FormControl, FormItem, FormLabel, FormMessage } from './ui/form';
 
 export function FormItemField({ label, children }: FormItemFieldProps) {
   return (

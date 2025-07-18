@@ -22,13 +22,13 @@ const timeUnits: timeUnitsType = [
 ];
 
 export function formatTimeToNow(dateString: string) {
-  const diffInMs = Math.abs(new Date(dateString).getTime() - Date.now());
+  const diffInMs = new Date(dateString).getTime() - Date.now();
 
-  let formatValue = Math.round(diffInMs / YEAR);
-  let unit: Intl.RelativeTimeFormatUnit = 'year';
+  let formatValue = 0;
+  let unit: Intl.RelativeTimeFormatUnit = 'second';
 
   for (const unitDef of timeUnits) {
-    if (diffInMs < unitDef.ts) {
+    if (Math.abs(diffInMs) < unitDef.ts) {
       if (unitDef.now) {
         return unitDef.now;
       }

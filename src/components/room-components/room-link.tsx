@@ -4,9 +4,7 @@ import { formatTimeToNow } from '@/utils/format-relative-date';
 import type { RoomLinkProps } from '../props/room-link-props';
 import { Badge } from '../ui/badge';
 
-export function RoomLink(data: RoomLinkProps) {
-  const room = data.room;
-
+export function RoomLink({ room }: RoomLinkProps) {
   return (
     <Link
       className="flex items-center justify-between rounded-lg border p-2 hover:bg-accent/50"
@@ -14,7 +12,6 @@ export function RoomLink(data: RoomLinkProps) {
     >
       <div className="flex-1">
         <h3 className="font-medium">{room.name}</h3>
-
         <div className="flex items-center gap-2">
           <Badge className="text-xs" variant="secondary">
             {formatTimeToNow(room.createdAt)}
