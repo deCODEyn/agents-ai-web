@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { CreateQuestionRequest } from './types/create-question-request';
 import type { CreateQuestionResponse } from './types/create-question-response';
+import type { GetQuestionsResponse } from './types/get-questions-response';
 
 export function useCreateQuestion(idRoom: string) {
   const queryClient = useQueryClient();
@@ -19,11 +20,66 @@ export function useCreateQuestion(idRoom: string) {
       );
 
       const result: CreateQuestionResponse = await response.json();
-
       return result;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['get-questions', idRoom] });
+
+    onMutate({ question }) {
+      const questions = queryClient.getQueryData<GetQuestionsResponse>([
+        'get-questions',
+        idRoom,
+      ]);
+
+      const questionsArray = questions ?? [];
+      const newQuestion = {
+        id: crypto.randomUUID(),
+        question,
+        answer: null,
+        createdAt: new Date().toISOString(),
+        isGeneratingAnswer: true,
+      };
+
+      queryClient.setQueryData<GetQuestionsResponse>(
+        ['get-questions', idRoom],
+        [newQuestion, ...questionsArray]
+      );
+
+      return { newQuestion, questions };
     },
+
+    onSuccess(data, _variables, context) {
+      queryClient.setQueryData<GetQuestionsResponse>(
+        ['get-questions', idRoom],
+        (questions) => {
+          if (!(questions && context.newQuestion)) {
+            return questions;
+          }
+
+          return questions.map((question) => {
+            if (question.id === context.newQuestion.id) {
+              return {
+                ...context.newQuestion,
+                id: data.idQuestion,
+                answer: data.answer,
+                isGeneratingAnswer: false,
+              };
+            }
+            return question;
+          });
+        }
+      );
+    },
+
+    onError(_error, _variables, context) {
+      if (context?.questions) {
+        queryClient.setQueryData<GetQuestionsResponse>(
+          ['get-questions', idRoom],
+          context.questions
+        );
+      }
+    },
+
+    //   onSuccess: () => {
+    //     queryClient.invalidateQueries({ queryKey: ['get-questions', idRoom] });
+    //   },
   });
 }
